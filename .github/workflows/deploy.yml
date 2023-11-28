@@ -41,10 +41,21 @@ jobs:
         run: |
           ./google-cloud-sdk/bin/gcloud auth configure-docker
 
+      - name: Install kubectl plugin
+        run: |
+          ./google-cloud-sdk/bin/gcloud components install kubectl
+
       - name: Set kubectl context
         run: |
           ./google-cloud-sdk/bin/gcloud container clusters get-credentials ${{ secrets.GCP_CLUSTER_NAME }} --zone ${{ secrets.GCP_CLUSTER_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
-  
+
+      - name: Configure kubectl
+        run: |
+          gcloud auth activate-service-account --key-file=/tmp/gcloud.json
+          kubectl config set-credentials gke-cluster-user --token=$(gcloud auth print-access-token)
+          kubectl config set-context gke-cluster --cluster=${{ secrets.GCP_CLUSTER_CONTEXT }} --user=gke-cluster-user
+          kubectl config use-context gke-cluster
+
       - name: Apply Kubernetes manifests
         run: |
           kubectl apply -f kubernetes/nginx-deployment.yaml
