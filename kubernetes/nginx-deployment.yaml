@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: gcr.io/cdtest-406103/nginx-reverse-proxy:latest
+          image: nginx:latest
           ports:
             - containerPort: 80

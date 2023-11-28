@@ -39,11 +39,14 @@ jobs:
 
       - name: Configure Docker CLI
         run: |
-          gcloud auth configure-docker
+          ./google-cloud-sdk/bin/gcloud auth configure-docker
+
+      - name: Set kubectl context
+        run: |
+          ./google-cloud-sdk/bin/gcloud container clusters get-credentials ${{ secrets.GCP_CLUSTER_NAME }} --zone ${{ secrets.GCP_CLUSTER_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
   
       - name: Apply Kubernetes manifests
         run: |
-          gcloud container clusters get-credentials ${{ secrets.GCP_CLUSTER_NAME }} --zone ${{ secrets.GCP_CLUSTER_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
           kubectl apply -f kubernetes/nginx-deployment.yaml
           kubectl apply -f kubernetes/nginx-service.yaml
   send-notification-successful:
