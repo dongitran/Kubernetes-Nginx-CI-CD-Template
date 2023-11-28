@@ -41,11 +41,6 @@ jobs:
         run: |
           gcloud auth configure-docker
   
-      - name: Build and push Nginx Docker image
-        run: |
-            docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/nginx-reverse-proxy:latest .
-            docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/nginx-reverse-proxy:latest
-  
       - name: Apply Kubernetes manifests
         run: |
           gcloud container clusters get-credentials ${{ secrets.GCP_CLUSTER_NAME }} --zone ${{ secrets.GCP_CLUSTER_ZONE }} --project ${{ secrets.GCP_PROJECT_ID }}
