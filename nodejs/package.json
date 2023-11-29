@@ -1,10 +1,12 @@
 {
-    "name": "your-nodejs-app",
-    "version": "1.0.0",
-    "description": "Your Node.js App with Express",
-    "main": "server.js",
-    "dependencies": {
-      "express": "^4.17.1"
-    }
-  }
-  
+  "name": "nodejs-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
