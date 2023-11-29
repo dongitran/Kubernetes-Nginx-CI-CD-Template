@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-reverse-proxy
+  name: nginx-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app: nginx-reverse-proxy
+      app: nginx
   template:
     metadata:
       labels:
-        app: nginx-reverse-proxy
+        app: nginx
     spec:
       containers:
         - name: nginx
-          image: nginx:latest
+          image: gcr.io/cdtest-406103/nginx-app:latest
           ports:
             - containerPort: 80

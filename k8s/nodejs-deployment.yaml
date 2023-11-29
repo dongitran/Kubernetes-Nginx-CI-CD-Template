@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: nodejs-app
-          image: gcr.io/cdtest-406103/kubernetes-nodejs-ci-cd-template:latest
+          image: gcr.io/cdtest-406103/nodejs-app:latest
           ports:
             - containerPort: 3000

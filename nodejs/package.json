@@ -1,0 +1,10 @@
+{
+    "name": "your-nodejs-app",
+    "version": "1.0.0",
+    "description": "Your Node.js App with Express",
+    "main": "server.js",
+    "dependencies": {
+      "express": "^4.17.1"
+    }
+  }
+  

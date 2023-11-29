@@ -41,10 +41,15 @@ jobs:
         run: |
           ./google-cloud-sdk/bin/gcloud auth configure-docker
 
-      - name: Build and push Docker image
+      - name: Build and push Node.js Docker image
         run: |
-          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/kubernetes-nodejs-ci-cd-template .
-          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/kubernetes-nodejs-ci-cd-template
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/nodejs-app:latest -f nodejs/Dockerfile .
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/nodejs-app:latest
+
+      - name: Build and push Nginx Docker image
+        run: |
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/nginx-app:latest -f nginx/Dockerfile .
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/nginx-app:latest
 
       - name: Install kubectl plugin
         run: |
@@ -61,12 +66,15 @@ jobs:
           kubectl config set-context gke-cluster --cluster=${{ secrets.GCP_CLUSTER_CONTEXT }} --user=gke-cluster-user
           kubectl config use-context gke-cluster
 
-      - name: Apply Kubernetes manifests
+      - name: Apply Nginx Deployment
         run: |
-          kubectl apply -f kubernetes/nodejs-deployment.yaml
-          kubectl apply -f kubernetes/nodejs-service.yaml
-          kubectl apply -f kubernetes/nginx-deployment.yaml
-          kubectl apply -f kubernetes/nginx-service.yaml
+          kubectl apply -f k8s/nginx-deployment.yaml
+          kubectl apply -f k8s/nginx-service.yaml
+
+      - name: Apply Node.js Deployment
+        run: |
+          kubectl apply -f k8s/nodejs-deployment.yaml
+          kubectl apply -f k8s/nodejs-service.yaml
   send-notification-successful:
     needs: deploy
     runs-on: ubuntu-latest
