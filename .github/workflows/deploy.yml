@@ -41,6 +41,11 @@ jobs:
         run: |
           ./google-cloud-sdk/bin/gcloud auth configure-docker
 
+      - name: Build and push Docker image
+        run: |
+          docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/kubernetes-nodejs-ci-cd-template .
+          docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/kubernetes-nodejs-ci-cd-template
+
       - name: Install kubectl plugin
         run: |
           ./google-cloud-sdk/bin/gcloud components install kubectl
@@ -58,6 +63,8 @@ jobs:
 
       - name: Apply Kubernetes manifests
         run: |
+          kubectl apply -f kubernetes/nodejs-deployment.yaml
+          kubectl apply -f kubernetes/nodejs-service.yaml
           kubectl apply -f kubernetes/nginx-deployment.yaml
           kubectl apply -f kubernetes/nginx-service.yaml
   send-notification-successful:
