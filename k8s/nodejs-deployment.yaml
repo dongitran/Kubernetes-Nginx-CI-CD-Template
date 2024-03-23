@@ -1,4 +1,4 @@
-apiVersion: apps/v2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nodejs-deployment
@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        app: nodejs-app
+        app: nodejs-app1
     spec:
       containers:
         - name: nodejs-app
